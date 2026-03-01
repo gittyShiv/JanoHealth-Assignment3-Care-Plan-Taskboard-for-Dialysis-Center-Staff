@@ -9,13 +9,19 @@ import { createQueryClient } from './lib/queryClient'
 const queryClient = createQueryClient()
 
 async function enableMocking() {
-  // Enable MSW in both dev and production (demo mode)
-  if (typeof window !== 'undefined') {
-    const { worker } = await import('./mocks/browser')
-    await worker.start({
-      onUnhandledRequest: 'bypass',
-    })
-  }
+  if (typeof window === 'undefined') return
+
+  const { worker } = await import('./mocks/browser')
+
+  await worker.start({
+    serviceWorker: {
+      url: '/mockServiceWorker.js',
+      options: { scope: '/' },
+    },
+    onUnhandledRequest: 'bypass',
+  })
+
+  console.log('MSW started')
 }
 
 async function bootstrap() {
