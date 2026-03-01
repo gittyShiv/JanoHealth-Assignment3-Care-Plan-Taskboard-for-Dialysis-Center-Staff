@@ -4,6 +4,7 @@ Front-end taskboard for dialysis center staff with optimistic updates, filtering
 
 ## Deployed link : 
 https://dialysis-care-app.vercel.app/
+but for seeded example of people you need to run locally for now
 ## Quickstart
 - Install: `npm install`
 - Dev server with mocks: `npm run dev`
