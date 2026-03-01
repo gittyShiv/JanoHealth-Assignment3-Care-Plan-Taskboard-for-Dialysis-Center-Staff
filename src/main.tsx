@@ -25,12 +25,26 @@ async function enableMocking() {
 }
 
 async function bootstrap() {
-  const rootElement = document.getElementById('root')
-  if (!rootElement) {
-    throw new Error('Root element missing')
+  if (typeof window !== 'undefined') {
+    const { worker } = await import('./mocks/browser')
+
+    await worker.start({
+      serviceWorker: {
+        url: '/mockServiceWorker.js',
+        options: { scope: '/' },
+      },
+      onUnhandledRequest: 'bypass',
+    })
+
+    // If not yet controlled, reload once
+    if (!navigator.serviceWorker.controller) {
+      window.location.reload()
+      return
+    }
   }
 
-  await enableMocking()
+  const rootElement = document.getElementById('root')
+  if (!rootElement) throw new Error('Root element missing')
 
   createRoot(rootElement).render(
     <StrictMode>
