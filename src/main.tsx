@@ -9,18 +9,23 @@ import { createQueryClient } from './lib/queryClient'
 const queryClient = createQueryClient()
 
 async function enableMocking() {
-  if (import.meta.env.DEV) {
+  // Enable MSW in both dev and production (demo mode)
+  if (typeof window !== 'undefined') {
     const { worker } = await import('./mocks/browser')
-    await worker.start({ onUnhandledRequest: 'bypass' })
+    await worker.start({
+      onUnhandledRequest: 'bypass',
+    })
   }
 }
 
-const rootElement = document.getElementById('root')
-if (!rootElement) {
-  throw new Error('Root element missing')
-}
+async function bootstrap() {
+  const rootElement = document.getElementById('root')
+  if (!rootElement) {
+    throw new Error('Root element missing')
+  }
 
-enableMocking().then(() => {
+  await enableMocking()
+
   createRoot(rootElement).render(
     <StrictMode>
       <QueryClientProvider client={queryClient}>
@@ -30,4 +35,6 @@ enableMocking().then(() => {
       </QueryClientProvider>
     </StrictMode>,
   )
-})
+}
+
+bootstrap()
