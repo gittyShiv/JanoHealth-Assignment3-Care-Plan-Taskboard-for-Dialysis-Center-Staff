@@ -2,6 +2,10 @@
 
 Front-end taskboard for dialysis center staff with optimistic updates, filtering by role/time, and MSW-backed mocked APIs. Focus areas: explicit data contracts, resilient UI under imperfect data/network, and clear separation of concerns.
 
+## 🎥 Live Demo
+
+[![Watch the demo](https://img.youtube.com/vi/JxgIuz-9iHk/0.jpg)](https://youtu.be/JxgIuz-9iHk)
+
 ## Deployed link : 
 https://dialysis-care-app.vercel.app/
 but for seeded example of people you need to run locally for now
